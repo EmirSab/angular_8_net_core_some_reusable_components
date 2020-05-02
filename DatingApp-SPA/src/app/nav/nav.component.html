@@ -1,0 +1,52 @@
+<!--Dodati bootstrap u nav komponentu-->
+<!--4.2.2 Prepraviti bootstrap ->nav.component.ts-->
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <div class="container">
+  <a class="navbar-brand" [routerLink]="['/home']" >Dating App</a>
+
+    <!--7.3 Dodati linkove za nove module ->app.component.html-->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/members']" >Matches</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/lists']" >Lists</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/messages']" >Messages</a>
+      </li>
+      <!--20.15.3 Dodati link za admin-->
+      <!--20.17.3 Dodati direktivu na html-->
+      <li *appHasRole="['Admin', 'Moderator']" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/admin']" >Admin</a>
+      </li>
+    </ul>
+    <!--4.6 dodati dropdown link ->nav.ts-->
+    <!--4.6.2 Dodati uslove ako je logovan ili nije ->home.html-->
+    <!--6.5.2 Dodati dropdown-->
+    <!--11.14.5 Dodati html za sliku da prikazuje ->nav.componenet.css ->auth.service-->
+    <div *ngIf="loggedIn()" class="dropdown" dropdown>
+      <span class="mr-1">
+        <!--11.16.2 mjesto {{authService.currentUser.photoUrl}} staviti photoUrl ->app.componenet.ts -->
+        <img src="{{photoUrl || '../../../../../assets/user.png.png'}}" alt="">
+      </span>
+      <a class="dropdown-toggle text-light" dropdownToggle>
+        <!--6.4.1 Dodati da se ime usera ispisuje ->app.component.ts-->
+        Welcome {{authService.decodedToken?.unique_name | titlecase}}
+      </a>
+    
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item" [routerLink]="['/member/edit']"><i class="fa fa-user"></i>Edit Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+      </div>
+    </div>
+    <!--4.3.1 dodati ngForm ->app.module-->
+    <!--4.3.3 dodati ngmodele na propertije pass i user ->napraviti folder _services i dodati auth service ->app.module-->
+    <form *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
+      <input class="form-control mr-sm-2" type="text" name="username" placeholder="Username" required [(ngModel)]="model.username">
+      <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)]="model.password">
+      <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+    </form>
+  </div>
+</nav>

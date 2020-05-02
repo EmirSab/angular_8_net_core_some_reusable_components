@@ -1,0 +1,19 @@
+<!--20.18.8 Dodati html ->user.managment.ts-->
+<div class="row">
+  <table class="table">
+    <tr>
+      <th style="width: 10%;">User ID</th>
+      <th style="width: 30%;">Username</th>
+      <th style="width: 40%;">Active roles</th>
+      <th style="width: 20%;"></th>
+    </tr>
+    <tr *ngFor="let user of users">
+      <td>{{user.id}}</td>
+      <td>{{user.userName}}</td>
+      <td>{{user.roles}}</td>
+      <!--20.19.5 Dodati click da izbacuje modal-->
+      <!--20.20.3 Dodati usera u editRolesModal(user) ->roles.modal.ts-->
+      <td><button class="btn btn-info" (click)="editRolesModal(user)">Edit Roles</button></td>
+    </tr>
+  </table>
+</div>
